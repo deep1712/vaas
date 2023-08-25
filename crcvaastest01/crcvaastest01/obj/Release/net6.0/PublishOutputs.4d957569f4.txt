@@ -1,0 +1,12 @@
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.exe
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\appsettings.json
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.dll
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.deps.json
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.runtimeconfig.json
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.pdb
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\JsonValidator\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

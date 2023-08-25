@@ -1,0 +1,5 @@
+JsonKey,MatchRegex,ErrorMessage
+FirmwarePath,^C,It is not a valid windows path
+,,
+,,
+,,

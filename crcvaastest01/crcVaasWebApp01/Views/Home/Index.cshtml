@@ -1,0 +1,62 @@
+﻿@model crcVaasWebApp01.Models.MessageModel
+
+@{
+    ViewBag.Title = "Validation";
+}
+
+<h2>Validation</h2>
+
+<form asp-controller="Home" asp-action="Upload" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="csvFile" class="form-label">CSV File</label>
+        <input type="file" class="form-control" id="csvFile" name="CsvFile" required>
+        <div class="invalid-feedback">Please choose a CSV file.</div>
+    </div>
+    <div class="mb-3">
+        <label for="jsonFile" class="form-label">JSON File</label>
+        <input type="file" class="form-control" id="jsonFile" name="JsonFile" required>
+        <div class="invalid-feedback">Please choose a JSON file.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+
+@if (Model.Message != null && Model.Message.Trim().Length != 0)
+{
+    <div class="card mt-4">
+        <div class="card-body bg-light">
+            <h5 class="card-title">Results</h5>
+            <ul class="list-group">
+                @foreach (var item in Model.Message.Split(",,,"))
+                {
+                    <li class="list-group-item">@item.Trim()</li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Client-side validation
+        (function () {
+            'use strict';
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}

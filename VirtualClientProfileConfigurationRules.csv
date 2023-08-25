@@ -1,0 +1,2 @@
+JsonKey,MatchRegex,ErrorMessage
+NumberOfJvmInstances,(^\d+$|\$.Parameters.NumberOfJvmInstances),Invalid value for NumberOfJvmInstances. It should be a whole number only.

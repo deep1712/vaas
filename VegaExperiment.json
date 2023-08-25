@@ -1,0 +1,36 @@
+{
+  "Experiment": {
+    "name": "DeepanshuIoMeterTest",
+    "description": "Run Vega_TK test",
+    "platform": "win-64",
+    "metadata": {
+      "platform": "win-64",
+      "teamName": "CRC Vega",
+      "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      "revision": "16.03.23",
+      "userEmail": "deepanshu.vaid@microsoft.com"
+    },
+    "workflow": [
+      {
+        "type": "LoopExecution",
+        "name": "Do the following steps in a loop",
+        "loopCount": "1",
+        "steps": [
+          {
+            "type": "Vega.Execution.Providers.Workloads.VirtualClientProvider",
+            "name": "Run Log-WcsDriveInfo",
+            "description": "Run a Virtual Client command through system agent",
+            "parameters": {
+              "VirtualClientPackage": "VirtualClient.1.6.2253.965.zip",
+              "Scenario": "Log-WcsDriveInfo",
+              "Profile": "PERF-CPU-GEEKBENCH.json",
+              "ProfileCycles": "1",
+              "VcCommandArguments": "--debug",
+              "Parameters": "ToolkitCommand=Log-WcsDriveInfo,,,ExperimentName=DeepanshuIoMeterTest,,,ContentStoreSource=VirtualClient"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  }

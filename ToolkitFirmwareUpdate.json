@@ -1,0 +1,104 @@
+{
+  "Description": "RUN QUICKSTRESS Workload",
+  "MinimumExecutionInterval": "00:10:00",
+  "Metadata": {
+      "SupportedPlatforms": "win-x64,win-arm64"
+  },
+  "Parameters": {
+  },
+  "Actions": [
+      {
+          "Type": "ParallelExecution",
+          "Components": [
+              {
+                  "Type": "GeekbenchExecutor",
+                  "Parameters": {
+                      "Scenario": "ScoreSystem",
+                      "CommandLine": "--no-upload",
+                      "PackageName": "geekbench5"
+                  }
+              },
+              {
+                  "Type": "MemoryLatencyCheckerExecutor",
+                  "Parameters": {
+                      "Scenario": "MLCWorkload",
+                      "CommandLine": "",
+                      "PackageName": "mlc"
+                  }
+              },
+              {
+                  "Type": "DiskSpdExecutor",
+                  "Parameters": {
+                      "Scenario": "RandomWrite_4k_BlockSize",
+                      "PackageName": "diskspd",
+                      "DiskFilter": "BiggestSize",
+                      "CommandLine": "-c[filesize] -b4K -r4K -t[threads] -o[queuedepth] -w100 -d10 -Suw -W15 -D -L -Rtext",
+                      "TestName": "diskspd_randwrite_[filesize]_4k_d[queuedepth]_th[threads]",
+                      "FileSize": "4G",
+                      "FileName": "diskspd-test.dat",
+                      "Configuration": "Stress",
+                      "ProcessModel": "SingleProcess",
+                      "DeleteTestFilesOnFinish": false,
+                      "Tags": "IO,DiskSpd,randwrite"
+                  }
+              },
+              {
+                  "Type": "Prime95Executor",
+                  "Parameters": {
+                      "Scenario": "ApplyStress",
+                      "CommandLine": "-t",
+                      "TimeInMins": "10",
+                      "MinTortureFFT": "4",
+                      "MaxTortureFFT": "8192",
+                      "TortureHyperthreading": "1",
+                      "FFTConfiguration": "0",
+                      "ThreadCount": "",
+                      "PackageName": "prime95"
+                  }
+              }
+          ]
+      }
+  ],
+  "Dependencies": [
+      {
+          "Type": "DependencyPackageInstallation",
+          "Parameters": {
+              "Scenario": "InstallGeekBench5WorkloadPackage",
+              "BlobContainer": "packages",
+              "BlobName": "geekbench5.1.0.0.zip",
+              "PackageName": "geekbench5",
+              "Extract": true
+          }
+      },
+      {
+          "Type": "DependencyPackageInstallation",
+          "Parameters": {
+              "Scenario": "InstallMLCPackage",
+              "BlobContainer": "packages",
+              "BlobName": "mlc-3.9a.zip",
+              "PackageName": "mlc",
+              "Extract": true
+          }
+      },
+      {
+          "Type": "DependencyPackageInstallation",
+          "Parameters": {
+              "Scenario": "InstallDiskSpdWorkloadPackage",
+              "BlobContainer": "packages",
+              "BlobName": "diskspd.2.0.21.zip",
+              "PackageName": "diskspd",
+              "Extract": true
+          }
+      },
+      {
+          "Type": "DependencyPackageInstallation",
+          "Parameters": {
+              "Scenario": "InstallPrime95Package",
+              "BlobContainer": "packages",
+              "BlobName": "prime95-v308b16.zip",
+              "PackageName": "prime95",
+              "Extract": true
+          }
+      }
+  ]
+}

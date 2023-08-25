@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\crcVaasWebApp01.props" />
+</Project>

@@ -1,0 +1,11 @@
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.exe
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.dll
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.deps.json
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.runtimeconfig.json
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\crcvaastest01.pdb
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\ADMIN\source\repos\crcvaastest01\crcvaastest01\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

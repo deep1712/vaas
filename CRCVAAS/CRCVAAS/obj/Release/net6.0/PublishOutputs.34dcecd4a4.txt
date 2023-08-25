@@ -1,0 +1,12 @@
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\CRCVAAS.exe
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\appsettings.json
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\CRCVAAS.dll
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\CRCVAAS.deps.json
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\CRCVAAS.runtimeconfig.json
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\CRCVAAS.pdb
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\JsonValidator\CRCVAAS\CRCVAAS\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

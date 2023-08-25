@@ -1,0 +1,4092 @@
+{
+    "id": "VC_Release.ExecutionGoal.json",
+    "created": "2022-08-01T05:16:20.1138137Z",
+    "lastModified": "2022-08-01T07:21:38.737612Z",
+    "definition": {
+      "experimentName": "VC_Release",
+      "description": "Execution goal for validating a Virtual Client version for production readiness.",
+      "parameters": {},
+      "metadata": {
+        "datecreated": "07/19/2022",
+        "datemodified": "07/19/2022",
+        "teamName": "CRC AIR",
+        "owner": "crc_vc_fte@microsoft.com;brdeyo@microsoft.com;yanpan@microsoft.com",
+        "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        "experimentCategory": "A",
+        "intent": "Qualify Virtual Client for Production Release",
+        "version": "2021-01-01",
+        "payload": "QoS",
+        "payloadType": "QoS",
+        "payloadVersion": "n/a",
+        "payloadPFVersion": "n/a",
+        "templateOwner": "crc_vc_fte@microsoft.com;brdeyo@microsoft.com;yanpan@microsoft.com"
+      },
+      "targetGoals": [
+        {
+          "name": "VC_Release_PERF-ASPNETBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "0 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 7
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-ASPNETBENCH (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-ASPNETBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-COREMARK-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "0 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-COREMARK (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-COREMARK.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-GEEKBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "0 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-GEEKBENCH (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "meta.unexpectedCondtions" : ["summarize avg(MetricValue) by MetricName | where avg_MetricValue >1000 and avg_MetricValue < 2000"],
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-GEEKBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-LAPACK-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-LAPACK (linux-x64)",
+                "unexpectedCondtions": [
+                  "where "
+                ],
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-LAPACK.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-HPC-NASPARALLELBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "0 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-HPC-NASPARALLELBENCH (linux-x64)",
+                "metadata.profilingMode": "None",
+                "vmCount": 1,
+                "regions": "East US",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-HPC-NASPARALLELBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\" --parameters=\"Username=junovmadmin\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D32_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-OPENSSL-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-OPENSSL (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-OPENSSL.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.08:00:00",
+                "vcTimeout": "00.08:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-SANDSTONE-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-SANDSTONE (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-SANDSTONE.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-GRAPH500-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-GRAPH500 (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-GRAPH500.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.08:00:00",
+                "vcTimeout": "00.08:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-HPCG-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-HPCG (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-HPCG.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.08:00:00",
+                "vcTimeout": "00.08:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D8_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-GPU-SUPERBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "2 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-GPU-SUPERBENCH (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "nvidia",
+                "osOffer": "pytorch_from_nvidia",
+                "osSku": "ngc-pytorch-version-21-04-1",
+                "osVersion": "latest",
+                "includeImagePlan": true,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-GPU-SUPERBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 4,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_NV12s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-IO-FIO-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "2 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-IO-FIO (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 16,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-IO-FIO.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D64s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-LZBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "2 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-LZBENCH (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-LZBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.18:00:00",
+                "vcTimeout": "00.18:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-MEM-LMBENCH-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "3 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-MEM-LMBENCH (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-MEM-LMBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-MEM-LATENCY-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "1 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-MEM-LATENCY (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-MEM-LATENCY.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-MEM-STREAM-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "3 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-MEM-STREAM (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-MEM-STREAM.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-MEM-STREAMTRIAD-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "3 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-MEM-STREAMTRIAD (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-MEM-STREAMTRIAD.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-NETWORK-PING-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "4 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-NETWORK-PING (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-NETWORK-PING.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\" --parameters=\"IPAddress=20.80.171.176\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-OPENFOAM-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "4 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-OPENFOAM (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-OPENFOAM.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECCPU-FPRATE-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "5 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECCPU-FPRATE (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECCPU-FPRATE.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECCPU-FPSPEED-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "5 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECCPU-FPSPEED (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECCPU-FPSPEED.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECCPU-INTRATE-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "6 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECCPU-INTRATE (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECCPU-INTRATE.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECCPU-INTSPEED-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "6 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECCPU-INTSPEED (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECCPU-INTSPEED.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECJBB-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECJBB (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECJBB.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECJVM-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECJVM (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECJVM.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-STRESSNG-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-STRESSNG (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-STRESSNG.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC30-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC30 (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC30.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC50-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC50 (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC50.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC70-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC70 (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC70.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC100-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "7 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC100 (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC100.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_QUAL-MEM-MST-linux-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "4 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "QUAL-MEM-MST (linux-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "linux-x64",
+                "osPublisher": "Canonical",
+                "osOffer": "UbuntuServer",
+                "osSku": "18.04-LTS",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=QUAL-MEM-MST.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-ASPNETBENCH-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "0 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-ASPNETBENCH (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-ASPNETBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D16_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-DOTNETRUNTIME-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "8 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-DOTNETRUNTIME (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-DOTNETRUNTIME.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.08:00:00",
+                "vcTimeout": "00.08:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 4,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-GEEKBENCH-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "8 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-GEEKBENCH (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-GEEKBENCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 4,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-LAPACK-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "9 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-LAPACK (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-LAPACK.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 4,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-OPENSSL-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "9 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-OPENSSL (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-OPENSSL.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-CPU-SANDSTONE-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "9 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-CPU-SANDSTONE (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-CPU-SANDSTONE.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-IO-DISKSPD-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "10 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-IO-DISKSPD (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 16,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-IO-DISKSPD.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 4,
+                          "includeVmSku": "Standard_D64s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-IO-FIO-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "10 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-IO-FIO (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 16,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-IO-FIO.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.16:00:00",
+                "vcTimeout": "00.16:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D64s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-IO-WLG-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "11 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-IO-WLG (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 2,
+                "dataDiskSizeInGB": 1024,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-IO-WLG.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.12:00:00",
+                "vcTimeout": "00.12:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-NETWORK-PING-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "11 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-NETWORK-PING (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-NETWORK-PING.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\" --parameters=\"IPAddress=20.80.171.176\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-NUMATEST-MONITORS-CPUSPEED-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "12 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-NUMATEST + MONITORS-CPUSPEED (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-NUMATEST.json --profile=MONITORS-CPUSPEED.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.01:00:00",
+                "vcTimeout": "00.01:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D4s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECJBB-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "12 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECJBB (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECJBB.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SPECJVM-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "12 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SPECJVM (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SPECJVM.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SQL-CLOUDDB-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "12 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SQL-CLOUDDB (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 4,
+                "dataDiskSizeInGB": 8192,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SQL-CLOUDDB.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_E16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SQL-TPCC-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "13 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 10,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SQL-TPCC (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 4,
+                "dataDiskSizeInGB": 8192,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SQL-TPCC.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_E16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-SQL-TPCH-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "13 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-SQL-TPCH (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 5,
+                "dataDiskSizeInGB": 8192,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-SQL-TPCH.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\" --parameters=\"BackupPackage=tpch-300gb-1.zip\"",
+                "vcDuration": "12.00:00:00",
+                "vcTimeout": "12.00:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_E16s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-WLG-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-WLG (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=PERF-WLG.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC30-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC30 (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC30.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC50-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC50 (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC50.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC70-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC70 (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC70.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_POWER-SPEC100-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "POWER-SPEC100 (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Premium_LRS",
+                "vcCommandArguments": "--profile=POWER-SPEC100.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D8s_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_REL-KSTRESS-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "14 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "REL-KSTRESS (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=REL-KSTRESS.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.04:00:00",
+                "vcTimeout": "00.04:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Windows.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 3,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_PERF-MEM-LATENCY-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "9 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "PERF-MEM-LATENCY (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=PERF-MEM-LATENCY.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 2,
+                          "includeVmSku": "Standard_D4_v3",
+                          "includeRegion": "$.parameters.regions"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "VC_Release_QUAL-MEM-MST-win-x64",
+          "enabled": false,
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.TimerTriggerProvider",
+              "parameters": {
+                "cronExpression": "4 */2 * * *"
+              }
+            },
+            {
+              "type": "Juno.Scheduler.Preconditions.SuccessfulExperimentsProvider",
+              "parameters": {
+                "targetExperimentInstances": 3,
+                "daysAgo": 1
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.SelectEnvironmentAndCreateExperimentProvider",
+              "parameters": {
+                "metadata.workload": "QUAL-MEM-MST (win-x64)",
+                "vmCount": 1,
+                "regions": "West US 2",
+                "platform": "win-x64",
+                "osPublisher": "MicrosoftWindowsServer",
+                "osOffer": "WindowsServer",
+                "osSku": "2019-Datacenter",
+                "osVersion": "latest",
+                "includeImagePlan": false,
+                "dataDiskCount": 0,
+                "dataDiskSizeInGB": 32,
+                "diskSku": "Standard_LRS",
+                "vcCommandArguments": "--profile=QUAL-MEM-MST.json --system=Juno --packages=\"[secret:keyvault]=VirtualClientPackageStoreConnectionString\"",
+                "vcDuration": "00.06:00:00",
+                "vcTimeout": "00.06:30:00",
+                "environmentQuery": {
+                  "parameterType": "Juno.Contracts.EnvironmentQuery",
+                  "definition": {
+                    "name": "VC_Release_Linux.Filter",
+                    "nodeCount": 3,
+                    "nodeAffinity": "SameRack",
+                    "groupCount": 1,
+                    "filters": [
+                      {
+                        "type": "Juno.EnvironmentSelection.SubscriptionFilters.QuotaLimitFilterProvider",
+                        "parameters": {
+                          "requiredInstances": 1,
+                          "includeVmSku": "Standard_D16_v3"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.ClusterSelectionFilters.RegionFilterProvider",
+                        "parameters": {
+                          "includeRegion": "*"
+                        }
+                      },
+                      {
+                        "type": "Juno.EnvironmentSelection.NodeSelectionFilters.ClusterFilterProvider",
+                        "parameters": {
+                          "includeCluster": "*"
+                        }
+                      }
+                    ],
+                    "parameters": {}
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "controlGoals": [
+        {
+          "name": "failureRate",
+          "preconditions": [
+            {
+              "type": "Juno.Scheduler.Preconditions.FailureRatePreconditionProvider",
+              "parameters": {
+                "minimumExperimentInstance": 20,
+                "targetFailureRate": 101,
+                "daysAgo": 7
+              }
+            }
+          ],
+          "actions": [
+            {
+              "type": "Juno.Scheduler.Actions.JunoExecutionGoalDisableProvider",
+              "parameters": {}
+            }
+          ]
+        }
+      ],
+      "experiment": {
+        "$schema": "https://junoppe01execution.azurewebsites.net/v1.0/schema",
+        "contentVersion": "1.0.0",
+        "name": "$.parameters.experiment.name",
+        "description": "QoS experiment to validate the working order of a Virtual Client version.",
+        "metadata": {
+          "teamName": "CRC AIR",
+          "email": "crcairteam@microsoft.com",
+          "experimentType": "QoS",
+          "generation": "Gen6",
+          "nodeCpuId": "50654",
+          "workload": "$.parameters.metadata.workload",
+          "workloadVersion": "$.parameters.vcVersion",
+          "workloadType": "VirtualClient",
+          "revision": "$.parameters.vcVersion",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+          "enableDiagnostics": true,
+          "impactType": "None"
+        },
+        "parameters": {
+          "gaVersion": "3.13.1",
+          "vcVersion": "1.2.2037.770"
+        },
+        "workflow": [
+          {
+            "type": "Juno.Execution.Providers.Environment.ArmVmProvider",
+            "name": "Create Virtual Machines",
+            "description": "Create virtual machines to run workloads for experiment Group A.",
+            "group": "Group A",
+            "parameters": {
+              "useTipSession": false,
+              "regions": "$.parameters.regions",
+              "subscriptionId": "$.parameters.subscription",
+              "osDiskStorageAccountType": "$.parameters.diskSku",
+              "osPublisher": "$.parameters.osPublisher",
+              "osOffer": "$.parameters.osOffer",
+              "osSku": "$.parameters.osSku",
+              "osVersion": "$.parameters.osVersion",
+              "dataDiskCount": "$.parameters.dataDiskCount",
+              "dataDiskSizeInGB": "$.parameters.dataDiskSizeInGB",
+              "dataDiskSku": "$.parameters.diskSku",
+              "dataDiskStorageAccountType": "$.parameters.diskSku",
+              "vmSize": "$.parameters.vmSku",
+              "vmCount": "$.parameters.vmCount",
+              "platform": "$.parameters.platform",
+              "includeImagePlan": "$.parameters.includeImagePlan"
+            }
+          },
+          {
+            "type": "Juno.Execution.Providers.Environment.InstallGuestAgentProvider",
+            "name": "Install Juno Guest Agent",
+            "description": "Installs the Juno Guest agent on the VMs for group A.",
+            "group": "Group A",
+            "parameters": {
+              "packageVersion": "$.parameters.gaVersion",
+              "platform": "$.parameters.platform",
+              "timeout": "00.01:00:00"
+            }
+          },
+          {
+            "type": "Juno.Execution.Providers.Workloads.VirtualClientWorkloadProvider",
+            "name": "Run VirtualClient Workload",
+            "description": "Run performance and IO workload on the VMs for group A",
+            "group": "Group A",
+            "parameters": {
+              "commandArguments": "$.parameters.command",
+              "packageVersion": "1.2.2037.770",
+              "platform": "win-x64",
+              "eventHubConnectionString": "[secret:keyvault]=VirtualClientEventHubConnectionString",
+              "duration": "00.01:00:00",
+              "timeout": "00.01:30:00"
+            },
+            "dependencies": [
+              {
+                "type": "Juno.Execution.Providers.Dependencies.NuGetPackageProvider",
+                "name": "Virtual Client NuGet Package",
+                "description": "Download the Virtual Client NuGet package to the VM.",
+                "group": "Group A",
+                "parameters": {
+                  "feedUri": "https://msazure.pkgs.visualstudio.com/_packaging/CRC-Dev/nuget/v3/index.json",
+                  "packageName": "VirtualClient",
+                  "packageVersion": "$.parameters.vcVersion",
+                  "personalAccessToken": "[secret:keyvault]=NuGetAccessToken"
+                }
+              }
+            ]
+          },
+          {
+            "type": "Juno.Execution.Providers.Environment.ArmVmCleanupProvider",
+            "name": "Cleanup VM Resources",
+            "description": "Cleanup VMs and related Azure subscription resources.",
+            "group": "Group A",
+            "parameters": {
+              "timeout": "00.02:00:00"
+            }
+          }
+        ]
+      }
+    }
+  }
+  

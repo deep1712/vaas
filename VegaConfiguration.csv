@@ -1,0 +1,5 @@
+JsonKey,MatchRegex,ErrorMessage,
+loopCount,^\d+$,Invalid value for Loop Count. It should be a number only.,
+Parameters,(ToolkitCommand)=(Log-WcsDriveInfo|Log-WcsGetPhysicalDisk|Run-ARMTdpStress|Run-CX5NetworkStress|Run-InfinibandTest|Run-NtttcpTraffic|Test-WcsPrime95|Test-WcsSevereFio),Invalid value for ToolkitCommand. Please visit the link for valid list of command : https://eng.ms/docs/cloud-ai-platform/ahsi-organization/ahsi/redsa-team/cloud-readiness-criteria-bare-metal/customer-documentation/libraries/toolkit/commanddocumentation/toolkit/commands/cycle-ffdcinfolog,
+ProfileCycles,^\d+$,Invalid value for Profile Cycles. It should be a number only.,
+userEmail,^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$,Invalid value for an Email Id,
